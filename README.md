@@ -11,7 +11,8 @@ values.
 
 For now, **I do not promote the use of this program for real engineering work.**
 
-For more information on the topic, I invite you to see the following Wikipedia
+If you're curious and wish to acquire more information on the topic,
+I invite the reader to check out the following Wikipedia
 articles: [Torque](https://en.wikipedia.org/wiki/Torque),
 [Motor Constants](https://en.wikipedia.org/wiki/Motor_constants)
 
