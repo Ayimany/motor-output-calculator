@@ -37,8 +37,8 @@ The output will be resolved in one of two ways:
 - A pretty-printed data table (Default behavior)
 - A terse output ordered per specified target (`--terse / -t`)
 
-Examples using the above command:
-**Pretty print:**
+Examples using the above command: \
+**Pretty print**
 ```
 ┌────────────────────────┬──────────┐
 │ Target                 │ Value    │
@@ -47,7 +47,7 @@ Examples using the above command:
 └────────────────────────┴──────────┘
 ```
 
-**Terse print:**
+**Terse print**
 ```
 0.421 kW
 ```
