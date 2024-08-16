@@ -16,6 +16,42 @@ I invite the reader to check out the following Wikipedia
 articles: [Torque](https://en.wikipedia.org/wiki/Torque),
 [Motor Constants](https://en.wikipedia.org/wiki/Motor_constants)
 
+## How its done
+
+The program takes in a set of parameters through the command line, each with a
+key and a value. Each key will affect the output of the program, for example:
+
+`TGT:PO#3 IC:25A EFF:90% PF:0.9 IV:11.6`
+
+Here, we have specified the following:
+- `TGT`: The target value which we want to calculate (3 Phase Power Output)
+- `EFF`: The motor's efficiency
+- `PF`: The power factor
+- `IC`: The input current
+- `IV`: The input voltage
+
+These will be run through a set of equations and formulae accoring to the target.
+If the target cannot be calculated due to a lack of data, the program will not generate any output. \
+
+The output will be resolved in one of two ways:
+- A pretty-printed data table (Default behavior)
+- A terse output ordered per specified target (`--terse / -t`)
+
+Examples using the above command:
+**Pretty print:**
+```
+┌────────────────────────┬──────────┐
+│ Target                 │ Value    │
+├────────────────────────┼──────────┤
+│ Power Output (3 Phase) │ 0.421 kW │
+└────────────────────────┴──────────┘
+```
+
+**Terse print:**
+```
+0.421 kW
+```
+
 ## Usage
 
 ### Running the program
@@ -23,11 +59,15 @@ Invoke the script through the use of a python interpreter. Pass the desired
 parameters and configurations through the command line.
 
 ```sh
-# Calculate the power output of a motor whose shaft has a gearing of 9:1.
-# Its nominal voltage is 12.0V but only receives 11.6V.
-# Usual power output of this motor is 380 Watts at 40 Amperes
-# And more...
-python m-out.py TGT:PO EFRV:5600rpm G1:12/1 G2:3/4 NV:12.0V IV:11.6V PO1:380W@40A # and so-on...
+# Example
+python m-out.py TGT:PO#1 EFRV:5600rpm G1:12/1 G2:3/4 EFF:80% IV:11.6V IC:10A PF:0.75 # and so-on...
+```
+
+You may pipe file contents.
+
+```sh
+# Example
+cat motor_config.txt | python m-out.py -
 ```
 
 To understand how to format the input, please refer to the documentation which
