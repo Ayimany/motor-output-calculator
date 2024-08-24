@@ -6,7 +6,6 @@ from argparse import ArgumentParser
 # Try a correct input such as Target:Eff Pin:15 Pout:14
 # Try an incorrect input such as Target:Eff Pout:14
 
-
 EXIT_FAILURE = 1
 
 
@@ -19,10 +18,12 @@ CALCULATION_MAP = {
     'Eff': ['Pout', 'Pin'],
 }
 
+
 g_display_help_message = False
 
 
 # TODO: Move to module 'argument_parsing.py'
+
 
 def obtain_error_list_from_input(arguments: list[str]) -> list[str]:
     errors = []
@@ -51,6 +52,7 @@ def arguments_to_mapping(arguments: list[str]) -> dict[str, str]:
 
 
 # TODO: Move to module 'electric_motor.py'
+
 
 def calculate_mechanical_output_watts_ot_av(
         output_torque_newton_metres: float,
