@@ -1,155 +1,69 @@
-from sys import argv, stderr
-from argparse import ArgumentParser
+import m_arg as ma
+import m_prop as mp
+import m_calc as mc
 
-# THIS REQUIRES SERIOUS REFACTORING
-# IT IS IN A WORKING STATE, BUT IS UGLY AF
 # Try a correct input such as Target:Eff Pin:15 Pout:14
 # Try an incorrect input such as Target:Eff Pout:14
 
 EXIT_FAILURE = 1
 
 
-CALCULATION_MAP = {
-    # There is likely a better way to do this.
-    # I will think about it later.:w
+def contains_required_properties(available: list[str], reqs: list[str]):
+    stat = True
 
-    'Pout': ['Eff', 'Pin'],
-    'Pin': ['Eff', 'Pout'],
-    'Eff': ['Pout', 'Pin'],
-}
+    for element in reqs:
+        stat = stat and element in available
 
-
-g_display_help_message = False
-
-
-# TODO: Move to module 'argument_parsing.py'
-
-
-def obtain_error_list_from_input(arguments: list[str]) -> list[str]:
-    errors = []
-
-    for arg in arguments:
-        if arg.startswith('-'):
-            continue
-
-        if ':' not in arg or arg == ':':
-            errors.append(f'Non-flag argument in invalid format ({arg})')
-
-    return errors
-
-
-def arguments_to_mapping(arguments: list[str]) -> dict[str, str]:
-    mapping = {}
-
-    for arg in arguments:
-        if arg.startswith('-'):
-            continue
-
-        split_arg = arg.split(':')
-        mapping[split_arg[0]] = split_arg[1]
-
-    return mapping
-
-
-# TODO: Move to module 'electric_motor.py'
-
-
-def calculate_mechanical_output_watts_ot_av(
-        output_torque_newton_metres: float,
-        angular_velocity_radians_per_second: float) -> float:
-    return output_torque_newton_metres * angular_velocity_radians_per_second
-
-
-def calculate_mechanical_output_watts_ef_ei(
-        efficiency: float,
-        electrical_input_watts: float) -> float:
-    return efficiency * electrical_input_watts
-
-
-def calculate_electrical_input_watts_ef_mo(
-        efficiency: float,
-        mechanical_output_watts: float) -> float:
-    return mechanical_output_watts / efficiency
-
-
-def calculate_electrical_input_watts_v_c(
-        voltage: float,
-        current: float) -> float:
-    return voltage * current
-
-
-def calculate_efficiency_mo_ei(mechanical_output_watts: float,
-                               electrical_input_watts: float) -> float:
-    return mechanical_output_watts / electrical_input_watts
+    return stat
 
 
 def main():
-    # Likely to be handled by argparse later.
-    if len(argv) <= 1:
-        print('No arguments. Aborting.', file=stderr)
-        quit(EXIT_FAILURE)
+    (flags, properties) = ma.setup()
+    motor_data = mp.extract_motor_data(properties)
 
-        # TODO: refactor into own module
-        parser = ArgumentParser(
-            prog='m-out',
-            description='Calculates characteristics of electrical motors',
-            epilog='This is a Uni project'
-        )
+    # TODO: Recursive algorithm to check for composite property calculations
+    # TODO: Dynamic property association
 
-        parser.parse_args(argv)
+    if len(motor_data.targets) > 1:
+        print("Heya, I'm gonna stop you right there.",
+              "I have made some very poor time management choices and,",
+              "for now, I will only let you have one target at a time.")
 
-    # Ensure correct format. This will be refactored.
-    errors = obtain_error_list_from_input(argv[1:])
-    if (len(errors) > 0):
-        print(f'There are errors in your input. ({len(errors)})', file=stderr)
-        for error in errors:
-            print(f'\t- {error}')
-        quit(EXIT_FAILURE)
+        print("Sorry for the inconvenience")
+        quit(1)
 
-    input_data = arguments_to_mapping(argv[1:])
+    if motor_data.targets[0] == 'Pout':
+        if not contains_required_properties(motor_data.properties,
+                                            mp.PROP_REQUIREMENTS['Pout']):
+            print('Insufficient data to calculate power output')
+            quit(1)
 
-    if 'Target' not in input_data:
-        print('No calculation target provided. Aborting.')
-        quit(EXIT_FAILURE)
+        eff = motor_data.properties['Eff']
+        p_in = motor_data.properties['Pin']
 
-    target = input_data['Target']
+        print(mc.calculate_mechanical_output_watts_ef_ei(eff, p_in), 'W')
 
-    if target not in CALCULATION_MAP:
-        print(f'Target not supported ({target}). Aborting.')
-        quit(EXIT_FAILURE)
+    if motor_data.targets[0] == 'Eff':
+        if not contains_required_properties(motor_data.properties,
+                                            mp.PROP_REQUIREMENTS['Eff']):
+            print('Insufficient data to calculate efficiency')
+            quit(1)
 
-    requirements = CALCULATION_MAP[target]
+        p_out = motor_data.properties['Pout']
+        p_in = motor_data.properties['Pin']
 
-    for req in requirements:
-        if req not in input_data:
-            print('Failed to locate requirement' +
-                  f'`{req}` for target `{target}`.')
-            quit(EXIT_FAILURE)
+        print(mc.calculate_efficiency_mo_ei(p_out, p_in), '%')
 
-        if not input_data[req].isnumeric():
-            print(
-                'Numeric requirement is non-numeric ' +
-                f'({req} = {input_data[req]}). ' +
-                'Aborting.'
-            )
-            quit(EXIT_FAILURE)
+    if motor_data.targets[0] == 'Pin':
+        if not contains_required_properties(motor_data.properties,
+                                            mp.PROP_REQUIREMENTS['Pin']):
+            print('Insufficient data to calculate power input')
+            quit(1)
 
-    match (target):
-        case 'Pout':
-            efficiency = float(input_data['Eff'])
-            p_in = float(input_data['Pin'])
-            print(f'{target} = {
-                  calculate_mechanical_output_watts_ef_ei(efficiency, p_in)}')
-        case 'Pin':
-            efficiency = float(input_data['Eff'])
-            p_out = float(input_data['Pout'])
-            print(f'{target} = {
-                  calculate_electrical_input_watts_ef_mo(efficiency, p_out)}')
-        case 'Eff':
-            p_out = float(input_data['Pout'])
-            p_in = float(input_data['Pin'])
-            print(f'{target} = {
-                  calculate_efficiency_mo_ei(p_out, p_in)}')
+        eff = motor_data.properties['Eff']
+        p_out = motor_data.properties['Pout']
+
+        print(mc.calculate_electrical_input_watts_ef_mo(eff, p_out), 'W')
 
 
 if __name__ == '__main__':
