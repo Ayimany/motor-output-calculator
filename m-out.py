@@ -41,7 +41,8 @@ def main():
         eff = motor_data.properties['Eff']
         p_in = motor_data.properties['Pin']
 
-        print(mc.calculate_mechanical_output_watts_ef_ei(eff, p_in), 'W')
+        print(f'{mc.calculate_mechanical_output_watts_ef_ei(eff, p_in):.3f}',
+              'W')
 
     if motor_data.targets[0] == 'Eff':
         if not contains_required_properties(motor_data.properties,
@@ -52,7 +53,7 @@ def main():
         p_out = motor_data.properties['Pout']
         p_in = motor_data.properties['Pin']
 
-        print(mc.calculate_efficiency_mo_ei(p_out, p_in), '%')
+        print(f'{(mc.calculate_efficiency_mo_ei(p_out, p_in)):.3f}', '%')
 
     if motor_data.targets[0] == 'Pin':
         if not contains_required_properties(motor_data.properties,
@@ -63,7 +64,8 @@ def main():
         eff = motor_data.properties['Eff']
         p_out = motor_data.properties['Pout']
 
-        print(mc.calculate_electrical_input_watts_ef_mo(eff, p_out), 'W')
+        print(f'{mc.calculate_electrical_input_watts_ef_mo(eff, p_out):.3f}',
+              'W')
 
 
 if __name__ == '__main__':
