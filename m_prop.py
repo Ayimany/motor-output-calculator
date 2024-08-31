@@ -1,4 +1,5 @@
 from sys import stderr
+import re
 
 PROP_REQUIREMENTS = {
     'Pout': ['Eff', 'Pin'],
@@ -17,6 +18,21 @@ class motor_struct:
 def print_mprop_err(index: int, arg: str, reason: str):
     print(f'At argument #{index} (\'{arg}\'):',
           reason, 'Skipping.', file=stderr)
+
+
+def represents_floating_point(what: str) -> bool:
+    """Determines whether a string can be parsed as a floating point number or not.
+    The usual `isnumeric()` method is not great at recognizing floating-point numbers.
+    This method fixes said issue."""
+
+    # Maybe begins with a sign, followed by n-or-zero numbers,
+    # maybe a dot, and at least one number
+    match = re.match(r'^[-+]?[0-9]*\.?[0-9]+', what)
+
+    if match is None:
+        return False
+
+    return match.group() == what
 
 
 def extract_motor_data(args: list[str]) -> motor_struct:
@@ -58,7 +74,7 @@ def extract_motor_data(args: list[str]) -> motor_struct:
             print_mprop_err(i, arg, f'Invalid property \'{property}\'.')
             continue
 
-        if not value.isnumeric():
+        if not represents_floating_point(value):
             print_mprop_err(
                 i, arg,
                 f'Right-hand side of argument, \'{value}\', is non-numeric.')
