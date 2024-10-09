@@ -10,9 +10,14 @@ def main():
     flags, properties = ma.setup()
     motor_data = mdex.convert_to_motor_data(properties, mfmt.logger)
 
-    dataset = calculate_possible_targets(motor_data)
+    while True:
+        dataset = calculate_possible_targets(motor_data)
+        if len(dataset) == 0:
+            break
 
-    print(dataset)
+        motor_data.properties = motor_data.properties | dataset
+
+    print(motor_data.properties)
 
 
 if __name__ == "__main__":

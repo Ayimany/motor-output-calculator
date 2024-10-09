@@ -1,16 +1,15 @@
 import re
 
 VALID_PROPERTIES = {
-    "Targets": "targets",
-    "Mechanical Power Output": "p_out",
-    "Mechanical Power Input": "p_in",
-    "Efficiency": "eff",
-    "Input Voltage": "v_in",
-    "Input Current": "i_in",
-    "Input Resistance": "o_in",
-    "Output Voltage": "v_out",
-    "Output Current": "i_out",
-    "Output Resistance": "o_out",
+    "p_out": "Mechanical Power Output",
+    "p_in": "Mechanical Power Input",
+    "eff": "Efficiency",
+    "v": "Input Voltage",
+    "i": "Input Current",
+    "r": "Input Resistance",
+    "w": "Angular Velocity",
+    "t": "Output Torque",
+    "rpm": "Revolutions per Minute",
 }
 
 

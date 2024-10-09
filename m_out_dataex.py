@@ -13,7 +13,7 @@ def data_ext_error(index: int, arg: str, reason: str, logger):
     logger.warning(
         f"At argument #{index} ('{arg}'):"
         + reason
-        + "This value will not be considered."
+        + " This value will not be considered."
     )
 
 
@@ -43,7 +43,7 @@ def convert_to_motor_data(args: list[str],
         name = name_and_value[0]
         value = name_and_value[1]
 
-        if name not in mstr.VALID_PROPERTIES.values():
+        if name not in mstr.VALID_PROPERTIES:
             data_ext_error(i, arg, f"Invalid property '{name}'.", logger)
             continue
 
