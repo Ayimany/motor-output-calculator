@@ -2,7 +2,7 @@
 
 When dealing with motors, one usually pays special attention to concepts
 such as output free-running/stall torque and possible velocity. These factors
-are often affected by input factors such as voltage and current. Applied
+are determined by input factors such as voltage and current. Applied
 output modifiers such as gearing may also affect the resultant motor output
 values.
 
@@ -22,18 +22,17 @@ articles: [Torque](https://en.wikipedia.org/wiki/Torque),
 The program takes in a set of parameters through the command line, each with a
 key and a value. Each key will affect the output of the program, for example:
 
-`TGT:PO#3 IC:25A EFF:90% PF:0.9 IV:11.6`
+`i:40 v:12 eff:1 rpm:6000`
 
 Here, we have specified the following:
 
-- `TGT`: The target value which we want to calculate (3 Phase Power Output)
-- `EFF`: The motor's efficiency
-- `PF`: The power factor
-- `IC`: The input current
-- `IV`: The input voltage
+- `i`: The applied current
+- `v`: The applied voltage
+- `eff`: The efficiency of the motor
+- `rpm`: The RPM of the motor
 
-These will be run through a set of equations and formulae accoring to the target.
-If the target cannot be calculated due to a lack of data, the program will not generate any output. \
+These will be run through a set of equations and formulae according to the target.
+If the target cannot be calculated due to a lack of data, the program will not generate any meaningful output. \
 
 The output will be resolved in one of two ways:
 
@@ -44,17 +43,39 @@ Examples using the above command: \
 **Pretty print**
 
 ```
-┌────────────────────────┬──────────┐
-│ Target                 │ Value    │
-├────────────────────────┼──────────┤
-│ Power Output (3 Phase) │ 0.421 kW │
-└────────────────────────┴──────────┘
+┌──────────────────────────────────┬──────────┐
+│ Input Current (A)                │ 40.0     │
+├──────────────────────────────────┼──────────┤
+│ Input Voltage (V)                │ 12.0     │
+├──────────────────────────────────┼──────────┤
+│ Efficiency (0-1)                 │ 1.0      │
+├──────────────────────────────────┼──────────┤
+│ Revolutions per Minute (rev/min) │ 6000.0   │
+├──────────────────────────────────┼──────────┤
+│ Mechanical Power Input (W)       │ 480.0    │
+├──────────────────────────────────┼──────────┤
+│ Angular Velocity (rad/s)         │ 628.3185 │
+├──────────────────────────────────┼──────────┤
+│ Input Resistance (R)             │ 0.3      │
+├──────────────────────────────────┼──────────┤
+│ Mechanical Power Output (W)      │ 480.0    │
+├──────────────────────────────────┼──────────┤
+│ Output Torque (Nm)               │ 0.7639   │
+└──────────────────────────────────┴──────────┘
 ```
 
 **Terse print**
 
 ```
-0.421 kW
+Input Current (A)                = 40.0    
+Input Voltage (V)                = 12.0    
+Efficiency (0-1)                 = 1.0     
+Revolutions per Minute (rev/min) = 6000.0  
+Mechanical Power Input (W)       = 480.0   
+Angular Velocity (rad/s)         = 628.3185
+Input Resistance (R)             = 0.3     
+Mechanical Power Output (W)      = 480.0   
+Output Torque (Nm)               = 0.7639  
 ```
 
 ## Usage

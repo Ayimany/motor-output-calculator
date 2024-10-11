@@ -97,3 +97,44 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
     fmt += "\n└" + "─" * key_hline_count + "┴" + "─" * value_hline_count + "┘"
 
     return fmt
+
+
+def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
+    longest_key_length = 0
+    longest_value_length = 0
+    matrix = []
+
+    if len(data.properties) < 1:
+        return "No Data."
+
+    for prop in data.properties:
+        key = VALID_PROPERTIES[prop]
+        value = str(round(data.properties[prop], decimals))
+
+        if len(key) > longest_key_length:
+            longest_key_length = len(key)
+
+        if len(value) > longest_value_length:
+            longest_value_length = len(value)
+
+        matrix.append([key, value])
+
+    fmt = ""
+
+    for i, row in enumerate(matrix):
+        key = row[0]
+        key_length = len(key)
+        key_filler = " " * (longest_key_length - key_length)
+        value = row[1]
+        value_length = len(value)
+        value_filler = " " * (longest_value_length - value_length)
+        padding_string = " " * padding
+
+        fmt += key + key_filler + padding_string
+        fmt += "=" + padding_string
+        fmt += value + value_filler + padding_string
+
+        if i != len(matrix) - 1:
+            fmt += "\n"
+
+    return fmt

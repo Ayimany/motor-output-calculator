@@ -1,16 +1,16 @@
 import argparse as ap
 
-PROGRAM_NAME = 'motor-output-calculator (m-out)'
-PROGRAM_DESC = 'Calculates unknown properties of electric motors based other, \
-known properties'
-PROGRAM_EPILOGUE = 'University project. Immature for most real work.'
+PROGRAM_NAME = "motor-output-calculator (m-out)"
+PROGRAM_DESC = "Calculates unknown properties of electric motors based other, \
+known properties"
+PROGRAM_EPILOGUE = "University project. Immature for most real work."
 
 
 def setup():
     parser = ap.ArgumentParser(
-        prog=PROGRAM_NAME,
-        description=PROGRAM_DESC,
-        epilog=PROGRAM_EPILOGUE
+        prog=PROGRAM_NAME, description=PROGRAM_DESC, epilog=PROGRAM_EPILOGUE
     )
+
+    parser.add_argument("--terse", "-t", action="store_true")
 
     return parser.parse_known_args()
