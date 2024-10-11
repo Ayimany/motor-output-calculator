@@ -17,7 +17,7 @@ I invite the reader to check out the following Wikipedia
 articles: [Torque](https://en.wikipedia.org/wiki/Torque),
 [Motor Constants](https://en.wikipedia.org/wiki/Motor_constants)
 
-## How its done
+## How it's done
 
 The program takes in a set of parameters through the command line, each with a
 key and a value. Each key will affect the output of the program, for example:
