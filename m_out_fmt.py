@@ -27,7 +27,7 @@ def applyfmt(log):
     return formatter.format(log)
 
 
-class format_wrapper:
+class FormatWrapper:
 
     def format(self, log):
         return applyfmt(log)
@@ -37,9 +37,16 @@ logger = logging.getLogger("m-out")
 logger.setLevel(logging.INFO)
 
 handler = logging.StreamHandler()
-handler.setFormatter(format_wrapper())
+handler.setFormatter(FormatWrapper())
 
 logger.addHandler(handler)
+
+
+def print_available_properties():
+    print("Available Properties")
+
+    for prop in VALID_PROPERTIES:
+        print(f"{VALID_PROPERTIES[prop]} : {prop}")
 
 
 def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):

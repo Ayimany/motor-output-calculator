@@ -87,19 +87,11 @@ parameters and configurations through the command line.
 
 ```sh
 # Example
-python m_out_main.py TGT:PO#1 EFRV:5600rpm G1:12/1 G2:3/4 EFF:80% IV:11.6V IC:10A PF:0.75 # and so-on...
+python m_out_main.py i:40 v:12 eff:1 rpm:6000
 ```
 
-You may pipe file contents.
-
-```sh
-# Example
-cat motor_config.txt | python m_out_main.py -
-```
-
-To understand how to format the input, please refer to the documentation which
-can be accessed through invoking the program with the `--help`/`-h` flag, or by
-reading the GitHub Wiki (Not available yet).
+To query available keys, please refer to the property registry which
+can be accessed through invoking the program with the `--show-props` flag.
 
 ## License
 

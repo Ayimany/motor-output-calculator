@@ -11,7 +11,7 @@ class MotorStruct:
 
 def data_ext_error(index: int, arg: str, reason: str, logger):
     logger.warning(
-        f"At argument #{index} ('{arg}'):"
+        f"At parameter #{index} ('{arg}'): "
         + reason
         + " This value will not be considered."
     )
@@ -51,7 +51,7 @@ def convert_to_motor_data(args: list[str],
             data_ext_error(
                 i,
                 arg,
-                f"Right-hand side of argument, '{value}', is non-numeric.",
+                f"Right-hand side of parameter , '{value}', is non-numeric.",
                 logger,
             )
             continue

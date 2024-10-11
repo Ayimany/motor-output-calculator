@@ -2,9 +2,11 @@ import m_out_argparser as ma
 import m_out_dataex as mdex
 import m_out_fmt as mfmt
 from m_out_calc import calculate_possible_targets
-from m_out_fmt import format_as_matrix_nx2, format_as_matrix_nx2_terse
-
-EXIT_FAILURE = 1
+from m_out_fmt import (
+    format_as_matrix_nx2,
+    format_as_matrix_nx2_terse,
+    print_available_properties,
+)
 
 
 def main():
@@ -17,6 +19,10 @@ def main():
             break
 
         motor_data.properties = motor_data.properties | dataset
+
+    if flags.show_props:
+        print_available_properties()
+        return 0
 
     if flags.terse:
         print(format_as_matrix_nx2_terse(motor_data))
