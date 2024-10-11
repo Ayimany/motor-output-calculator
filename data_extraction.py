@@ -1,6 +1,6 @@
 import logging
 
-import m_out_strman as mstr
+from data_formats import VALID_PROPERTIES, represents_floating_point
 
 
 class MotorStruct:
@@ -43,11 +43,11 @@ def convert_to_motor_data(args: list[str],
         name = name_and_value[0]
         value = name_and_value[1]
 
-        if name not in mstr.VALID_PROPERTIES:
+        if name not in VALID_PROPERTIES:
             data_ext_error(i, arg, f"Invalid property '{name}'.", logger)
             continue
 
-        if not mstr.represents_floating_point(value):
+        if not represents_floating_point(value):
             data_ext_error(
                 i,
                 arg,

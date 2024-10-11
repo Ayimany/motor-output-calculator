@@ -1,8 +1,8 @@
-import m_out_argparser as ma
-import m_out_dataex as mdex
-import m_out_fmt as mfmt
-from m_out_calc import calculate_possible_targets
-from m_out_fmt import (
+from argument_parsing import setup
+from calculations import calculate_possible_targets
+from data_extraction import convert_to_motor_data
+from formatting import (
+    logger,
     format_as_matrix_nx2,
     format_as_matrix_nx2_terse,
     print_available_properties,
@@ -10,8 +10,8 @@ from m_out_fmt import (
 
 
 def main():
-    flags, properties = ma.setup()
-    motor_data = mdex.convert_to_motor_data(properties, mfmt.logger)
+    flags, properties = setup()
+    motor_data = convert_to_motor_data(properties, logger)
 
     while True:
         dataset = calculate_possible_targets(motor_data)

@@ -1,7 +1,7 @@
 import logging
 
-from m_out_dataex import MotorStruct
-from m_out_strman import VALID_PROPERTIES
+from data_extraction import MotorStruct
+from data_formats import VALID_PROPERTIES
 
 RESET = "\x1b[0m"
 COLOR_ERROR = "\x1b[31;20m"

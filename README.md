@@ -87,7 +87,7 @@ parameters and configurations through the command line.
 
 ```sh
 # Example
-python m_out_main.py i:40 v:12 eff:1 rpm:6000
+python main.py i:40 v:12 eff:1 rpm:6000
 ```
 
 To query available keys, please refer to the property registry which

@@ -1,7 +1,7 @@
 from inspect import signature
 from math import pi
 
-from m_out_dataex import MotorStruct
+from data_extraction import MotorStruct
 
 
 class PropertyRelationship:
