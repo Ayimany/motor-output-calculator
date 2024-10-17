@@ -14,9 +14,14 @@ VALID_PROPERTIES = {
 
 
 def represents_floating_point(what: str) -> bool:
-    """Determines whether a string can be parsed as a floating point number or
+    """
+    Determines whether a string can be parsed as a floating point number or
     not. The usual `isnumeric()` method is not great at recognizing
-    floating-point numbers. This method fixes said issue."""
+    floating-point numbers. This method fixes this issue.
+
+    @param what: The string to check
+    @return: Wether or not the value represents a floating point number
+    """
 
     match = re.match(r"^[-+]?[0-9]*\.?[0-9]+", what)
 

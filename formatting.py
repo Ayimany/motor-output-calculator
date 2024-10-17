@@ -22,14 +22,29 @@ FORMAT_STYLES = {
 
 
 def applyfmt(log):
+    """
+    Generates a formatter for a logger
+
+    @param log: The log to apply the formatting to
+    @return: The formatter object
+    """
     formatter = logging.Formatter(FORMAT_STYLES.get(log.levelno))
 
     return formatter.format(log)
 
 
 class FormatWrapper:
+    """
+    Aids in the generation of custom log formatting
+    """
 
     def format(self, log):
+        """
+        Applues a format to a given log entry
+
+        @param log: The log to apply the formatting to
+        @return: The formatted log entry
+        """
         return applyfmt(log)
 
 
@@ -43,6 +58,11 @@ logger.addHandler(handler)
 
 
 def print_available_properties():
+    """
+    Prints the properties which a user can use to calculate motor data
+
+    @return: Nothing.
+    """
     print("Available Properties")
 
     for prop in VALID_PROPERTIES:
@@ -50,15 +70,21 @@ def print_available_properties():
 
 
 def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
+    """
+    Receives motor data and formats it as a table through the use of a data
+    matrix. Pretty version
+
+    @param data: The data to format
+    @param decimals: The amount of decimal places to round to
+    @param padding: The padding to apply to each entry in the table
+    @return: The formatted data
+    """
     longest_key_length = 0
     longest_value_length = 0
     matrix = []
 
     if len(data.properties) < 1:
-        return """
-┌────────────────────────┬───────┐
-│ No Data.               │ 0.0   │
-└────────────────────────┴───────┘"""
+        return "Please provide at least one property."
 
     for prop in data.properties:
         key = VALID_PROPERTIES[prop]
@@ -107,12 +133,21 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
 
 
 def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
+    """
+    Receives motor data and formats it as a table through the use of a data
+    matrix. Terse version
+
+    @param data: The data to format
+    @param decimals: The amount of decimal places to round to
+    @param padding: The padding to apply to each entry in the table
+    @return: The formatted data
+    """
     longest_key_length = 0
     longest_value_length = 0
     matrix = []
 
     if len(data.properties) < 1:
-        return "No Data."
+        return "Please provide at least one property."
 
     for prop in data.properties:
         key = VALID_PROPERTIES[prop]

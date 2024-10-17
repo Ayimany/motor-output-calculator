@@ -8,6 +8,11 @@ PROGRAM_EPILOGUE = "University project. Immature for most real work."
 
 
 def setup():
+    """
+    Initializes the program's CLI argument parser.
+
+    @return: The parse results.
+    """
     parser = ap.ArgumentParser(
         prog=PROGRAM_NAME, description=PROGRAM_DESC, epilog=PROGRAM_EPILOGUE
     )
