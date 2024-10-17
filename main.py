@@ -1,6 +1,6 @@
 from argument_parsing import setup
 from calculations import calculate_possible_targets
-from data_extraction import convert_to_motor_data
+from data_extraction import parse_motor_data
 from formatting import (
     logger,
     format_as_matrix_nx2,
@@ -11,7 +11,7 @@ from formatting import (
 
 def main():
     flags, properties = setup()
-    motor_data = convert_to_motor_data(properties, logger)
+    motor_data = parse_motor_data(properties, logger)
 
     while True:
         dataset = calculate_possible_targets(motor_data)

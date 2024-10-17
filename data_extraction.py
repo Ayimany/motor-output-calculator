@@ -34,8 +34,7 @@ def data_ext_error(index: int, arg: str, reason: str, logger):
     )
 
 
-def convert_to_motor_data(args: list[str],
-                          logger: logging.Logger) -> MotorStruct:
+def parse_motor_data(args: list[str], logger: logging.Logger) -> MotorStruct:
     """
     Converts a list of formatted arguments to a MotorStruct object. The format
     follows the convention `ArgumentName:ArgumentValue`
@@ -50,26 +49,27 @@ def convert_to_motor_data(args: list[str],
         delimiter_count = arg.count(":")
 
         if delimiter_count < 1:
-            data_ext_error(i, arg, "Missing property delimiter (':')", logger)
+            error_message = "Missing property delimiter (':')"
+            data_ext_error(i, arg, error_message, logger)
             continue
 
         elif delimiter_count > 1:
-            data_ext_error(
-                i, arg, "Can only have one separator per entry (':').", logger
-            )
+            error_message = "Can only have one separator per entry (':')."
+            data_ext_error(i, arg, error_message, logger)
             continue
 
         name_and_value = [s.strip() for s in arg.split(sep=":")]
 
         if len(name_and_value) != 2:
-            data_ext_error(i, arg, "A property needs a name and a value.",
-                           logger)
+            error_message = "A property needs a name and a value."
+            data_ext_error(i, arg, error_message, logger)
 
         name = name_and_value[0]
         value = name_and_value[1]
 
         if name not in VALID_PROPERTIES:
-            data_ext_error(i, arg, f"Invalid property '{name}'.", logger)
+            error_message = f"Invalid property '{name}'."
+            data_ext_error(i, arg, error_message, logger)
             continue
 
         if not represents_floating_point(value):
