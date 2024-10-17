@@ -93,6 +93,17 @@ python main.py i:40 v:12 eff:1 rpm:6000
 To query available keys, please refer to the property registry which
 can be accessed through invoking the program with the `--show-props` flag.
 
+## Requisite: Module Reference
+
+The following python modules were used in the creation of this program:
+
+- [logging](https://docs.python.org/3/library/logging.html): used to create diagnostic messages on wrong inputs
+- [argparse](https://docs.python.org/3/library/argparse.html): used to parse command line parameters
+- [inspect](https://docs.python.org/3/library/inspect.html): used to extract the signature of generic lambdas used to
+  perform per-requisite calculations
+- [re](https://docs.python.org/3/library/re.html): used to correctly identity floating point numbers instead of using
+  `isnumeric`
+
 ## License
 
 See LICENSE file.

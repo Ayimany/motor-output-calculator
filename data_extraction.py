@@ -17,8 +17,7 @@ def data_ext_error(index: int, arg: str, reason: str, logger):
     )
 
 
-def convert_to_motor_data(args: list[str],
-                          logger: logging.Logger) -> MotorStruct:
+def convert_to_motor_data(args: list[str], logger: logging.Logger) -> MotorStruct:
     properties = {}
 
     for i, arg in enumerate(args):
@@ -37,8 +36,7 @@ def convert_to_motor_data(args: list[str],
         name_and_value = [s.strip() for s in arg.split(sep=":")]
 
         if len(name_and_value) != 2:
-            data_ext_error(i, arg, "A property needs a name and a value.",
-                           logger)
+            data_ext_error(i, arg, "A property needs a name and a value.", logger)
 
         name = name_and_value[0]
         value = name_and_value[1]

@@ -12,7 +12,7 @@ class PropertyRelationship:
         self.arg_count = len(signature(self.fun).parameters)
 
     def calculate(self, *kwargs) -> float:
-        return self.fun(*kwargs[0: self.arg_count])
+        return self.fun(*kwargs[0 : self.arg_count])
 
 
 def binary_product(values: list[str]) -> PropertyRelationship:
