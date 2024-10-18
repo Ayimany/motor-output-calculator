@@ -1,4 +1,5 @@
 import logging
+from logging import Formatter
 
 from data_extraction import MotorStruct
 from data_formats import VALID_PROPERTIES
@@ -33,7 +34,9 @@ def applyfmt(log):
     return formatter.format(log)
 
 
-class FormatWrapper:
+# Inherits formatter
+# Not needed under python's design, but prevents the IDE from nagging
+class FormatWrapper(Formatter):
     """
     Aids in the generation of custom log formatting
     """
@@ -48,10 +51,14 @@ class FormatWrapper:
         return applyfmt(log)
 
 
-logger = logging.getLogger("m-out")
+# Logger name
+logger = logging.getLogger("motor-calc")
 logger.setLevel(logging.INFO)
 
+# Obtain the stream handler of the logger
 handler = logging.StreamHandler()
+
+# Apply the formatter
 handler.setFormatter(FormatWrapper())
 
 logger.addHandler(handler)
@@ -79,6 +86,7 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
     @param padding: The padding to apply to each entry in the table
     @return: The formatted data
     """
+    # Determines the longest strings to apply padding and justification
     longest_key_length = 0
     longest_value_length = 0
     matrix = []
@@ -87,6 +95,7 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
         return "Please provide at least one property."
 
     for prop in data.properties:
+        # Obtain the formal name
         key = VALID_PROPERTIES[prop]
         value = str(round(data.properties[prop], decimals))
 
@@ -96,7 +105,10 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
         if len(value) > longest_value_length:
             longest_value_length = len(value)
 
+        # Append all values to the matrix
         matrix.append([key, value])
+
+    # Constructs a format with box-drawing characters
 
     key_hline_count = longest_key_length + padding * 2
     value_hline_count = longest_value_length + padding * 2
@@ -119,6 +131,7 @@ def format_as_matrix_nx2(data: MotorStruct, decimals=4, padding=1):
         fmt += value + value_filler + padding_string
         fmt += "│"
 
+        # Special case: Last element
         if i < len(matrix) - 1:
             fmt += "\n"
             fmt += "├"
@@ -142,6 +155,7 @@ def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
     @param padding: The padding to apply to each entry in the table
     @return: The formatted data
     """
+    # Determines the longest strings to apply padding and justification
     longest_key_length = 0
     longest_value_length = 0
     matrix = []
@@ -150,6 +164,7 @@ def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
         return "Please provide at least one property."
 
     for prop in data.properties:
+        # Obtain the formal name
         key = VALID_PROPERTIES[prop]
         value = str(round(data.properties[prop], decimals))
 
@@ -159,7 +174,10 @@ def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
         if len(value) > longest_value_length:
             longest_value_length = len(value)
 
+        # Append all values to the matrix
         matrix.append([key, value])
+
+    # Constructs a terse format
 
     fmt = ""
 
@@ -176,6 +194,7 @@ def format_as_matrix_nx2_terse(data: MotorStruct, decimals=4, padding=1):
         fmt += "=" + padding_string
         fmt += value + value_filler + padding_string
 
+        # Special case: Last element
         if i != len(matrix) - 1:
             fmt += "\n"
 

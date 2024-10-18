@@ -45,7 +45,9 @@ def parse_motor_data(args: list[str], logger: logging.Logger) -> MotorStruct:
     """
     properties = {}
 
+    # For each argument
     for i, arg in enumerate(args):
+        # Check the delimiter count and if it's valid
         delimiter_count = arg.count(":")
 
         if delimiter_count < 1:
@@ -58,6 +60,7 @@ def parse_motor_data(args: list[str], logger: logging.Logger) -> MotorStruct:
             data_ext_error(i, arg, error_message, logger)
             continue
 
+        # Split between name and value
         name_and_value = [s.strip() for s in arg.split(sep=":")]
 
         if len(name_and_value) != 2:
@@ -67,11 +70,13 @@ def parse_motor_data(args: list[str], logger: logging.Logger) -> MotorStruct:
         name = name_and_value[0]
         value = name_and_value[1]
 
+        # If the property does not exist, notify and skip
         if name not in VALID_PROPERTIES:
             error_message = f"Invalid property '{name}'."
             data_ext_error(i, arg, error_message, logger)
             continue
 
+        # If the value is not a floating point number then warn and skip
         if not represents_floating_point(value):
             data_ext_error(
                 i,

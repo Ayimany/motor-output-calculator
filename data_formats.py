@@ -20,9 +20,10 @@ def represents_floating_point(what: str) -> bool:
     floating-point numbers. This method fixes this issue.
 
     @param what: The string to check
-    @return: Wether or not the value represents a floating point number
+    @return: Whether the value represents a floating point number
     """
 
+    # Regex.
     match = re.match(r"^[-+]?[0-9]*\.?[0-9]+", what)
 
     if match is None:

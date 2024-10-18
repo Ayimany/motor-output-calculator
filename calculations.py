@@ -22,6 +22,8 @@ class PropertyRelationship:
         """
         self.requirements = requirements
         self.fun = fun
+
+        # Determine the argument count of the lambda from its signature
         self.arg_count = len(signature(self.fun).parameters)
 
     def calculate(self, *kwargs) -> float:
@@ -33,6 +35,9 @@ class PropertyRelationship:
         @param kwargs: The arguments to apply
         @return: The result of the calculation
         """
+
+        # Call the calculation lambda
+        # Limit the amount of arguments passed to the lambda
         return self.fun(*kwargs[0: self.arg_count])
 
 
@@ -84,6 +89,9 @@ def binary_difference(values: list[str]) -> PropertyRelationship:
     return PropertyRelationship(values, lambda x, y: x - y)
 
 
+# Defines how each property is related to one another.
+# There are ways to perform algebraic manipulation automatically. As of now,
+# these will not be implemented
 PROPERTY_RELATIONSHIPS = {
     "p_out": [
         binary_product(["t", "w"]),
@@ -121,9 +129,11 @@ def attempt_to_calculate(target: str, data: MotorStruct) -> float | None:
     @return: The value, calculated as a floating point number or None if the
     value is not calculable.
     """
+    # If the target has already been calculated, return it
     if target in data.properties:
         return data.properties[target]
 
+    # Obtain the relationships with which the target can be calculated
     relationships = PROPERTY_RELATIONSHIPS[target]
     keys = list(data.properties.keys())
 
@@ -135,8 +145,10 @@ def attempt_to_calculate(target: str, data: MotorStruct) -> float | None:
             for requirement in relationship.requirements:
                 req_list.append(data.properties[requirement])
 
+            # Call the calculation function of the relationship
             return relationship.calculate(*req_list)
 
+    # If the property doesn't exist or can't be calculated, return nothing
     return None
 
 
@@ -150,15 +162,21 @@ def calculate_possible_targets(data: MotorStruct) -> dict[str, float]:
     """
     results = {}
 
+    # Attempt to calculate all properties from existing data by name
     for relationship in PROPERTY_RELATIONSHIPS:
+
+        # If the data already exists, skip
         if relationship in data.properties:
             continue
 
+        # Attempt to calculate the relationship by name
         res = attempt_to_calculate(relationship, data)
 
+        # Empty results are not considered
         if res is None:
             continue
 
+        # Populate results
         results[relationship] = res
 
     return results
