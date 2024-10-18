@@ -111,6 +111,19 @@ The following python modules were used in the creation of this program:
 - [re](https://docs.python.org/3/library/re.html): used to correctly identity floating point numbers instead of using
   `isnumeric`
 
+## Disclaimer
+
+This program is DESIGNED to ACCEPT negative values for some properties
+
+The rationale behind this comes in two forms
+
+- Physical conventions: Depending on which reference frame a person
+  may be working with, negative values for properties, even those such as
+  voltage, may be meaningful, hence there are no restrictions.
+- The [theory of antimatter](https://en.wikipedia.org/wiki/Antimatter)
+  and how many physical equations work perfectly fine under the use of negative values.
+  It is a great stretch for a project such as this one, yet I find it interesting.
+
 ## License
 
 See LICENSE file.

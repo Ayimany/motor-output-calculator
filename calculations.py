@@ -26,7 +26,7 @@ class PropertyRelationship:
         # Determine the argument count of the lambda from its signature
         self.arg_count = len(signature(self.fun).parameters)
 
-    def calculate(self, *kwargs) -> float:
+    def calculate(self, *kwargs) -> float | None:
         """
         Applies the given arguments to the calculation function. It is
         imperative that the arguments to this function must have the same
@@ -41,52 +41,54 @@ class PropertyRelationship:
         return self.fun(*kwargs[0: self.arg_count])
 
 
-def binary_product(values: list[str]) -> PropertyRelationship:
+def binary_product(vals: list[str]) -> PropertyRelationship:
     """
     Shorthand to produce a binary property relationship. The requirement list
     must contain two elements.
 
-    @param values: The named requirements
+    @param vals: The named requirements
     @return: A property relationship whose function is the product of the
     arguments
     """
-    return PropertyRelationship(values, lambda x, y: x * y)
+    return PropertyRelationship(vals, lambda x, y: x * y)
 
 
-def binary_quotient(values: list[str]) -> PropertyRelationship:
+def binary_quotient(vals: list[str]) -> PropertyRelationship:
     """
     Shorthand to produce a binary property relationship. The requirement list
     must contain two elements.
 
-    @param values: The named requirements
+    @param vals: The named requirements
     @return: A property relationship whose function is the quotient of the
     arguments
     """
-    return PropertyRelationship(values, lambda x, y: x / y)
+
+    # Returns None if the denominator is 0
+    return PropertyRelationship(vals, lambda x, y: x / y if y != 0 else None)
 
 
-def binary_sum(values: list[str]) -> PropertyRelationship:
+def binary_sum(vals: list[str]) -> PropertyRelationship:
     """
     Shorthand to produce a binary property relationship. The requirement list
     must contain two elements.
 
-    @param values: The named requirements
+    @param vals: The named requirements
     @return: A property relationship whose function is the sum of the
     arguments
     """
-    return PropertyRelationship(values, lambda x, y: x + y)
+    return PropertyRelationship(vals, lambda x, y: x + y)
 
 
-def binary_difference(values: list[str]) -> PropertyRelationship:
+def binary_difference(vals: list[str]) -> PropertyRelationship:
     """
     Shorthand to produce a binary property relationship. The requirement list
     must contain two elements.
 
-    @param values: The named requirements
+    @param vals: The named requirements
     @return: A property relationship whose function is the difference of the
     arguments
     """
-    return PropertyRelationship(values, lambda x, y: x - y)
+    return PropertyRelationship(vals, lambda x, y: x - y)
 
 
 # Defines how each property is related to one another.
