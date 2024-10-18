@@ -20,7 +20,7 @@ articles: [Torque](https://en.wikipedia.org/wiki/Torque),
 ## How it's done
 
 The program takes in a set of parameters through the command line, each with a
-key and a value. Each key will affect the output of the program, for example:
+key and a value. These are the motor's properties. Each key will affect the output of the program, for example:
 
 `i:40 v:12 eff:1 rpm:6000`
 
@@ -31,15 +31,17 @@ Here, we have specified the following:
 - `eff`: The efficiency of the motor
 - `rpm`: The RPM of the motor
 
-These will be run through a set of equations and formulae according to the target.
-If the target cannot be calculated due to a lack of data, the program will not generate any meaningful output. \
+These will be run through a set of equations and formulae which model the behavior of a motor and it's properties.
+If any properties cannot be calculated due to a lack of data, the program will simply not calculate them.
 
 The output will be resolved in one of two ways:
 
 - A pretty-printed data table (Default behavior)
-- A terse output ordered per specified target (`--terse / -t`)
+- A terse output separated by an equals sign and padding spaces.
+  This format may facilitate shell parsing or other kinds of parsing (`--terse / -t`)
 
 Examples using the above command: \
+\
 **Pretty print**
 
 ```
@@ -92,6 +94,11 @@ python main.py i:40 v:12 eff:1 rpm:6000
 
 To query available keys, please refer to the property registry which
 can be accessed through invoking the program with the `--show-props` flag.
+
+```sh
+# Query properties
+python main.py --show-props
+```
 
 ## Requisite: Module Reference
 
