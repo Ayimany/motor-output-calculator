@@ -6,7 +6,7 @@ VALID_PROPERTIES = {
     "eff": "Efficiency (0-1)",
     "v": "Input Voltage (V)",
     "i": "Input Current (A)",
-    "r": "Input Resistance (R)",
+    "r": "Input Resistance (Ohms)",
     "w": "Angular Velocity (rad/s)",
     "t": "Output Torque (Nm)",
     "rpm": "Revolutions per Minute (rev/min)",
