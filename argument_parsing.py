@@ -1,8 +1,9 @@
 import argparse as ap
 
 PROGRAM_NAME = "motor-output-calculator (m-out)"
-PROGRAM_DESC = "Calculates unknown properties of electric motors based other, \
-known properties"
+PROGRAM_DESC = """
+Calculates properties of electric motors based on known properties
+"""
 
 PROGRAM_EPILOGUE = "University project. Immature for most real work."
 
